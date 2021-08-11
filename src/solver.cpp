@@ -1,8 +1,13 @@
 #include <solver.h>
 #include <iostream>
+#include <map>
 
 Sudoku::Sudoku (const vector<vector<int>> tb) : table(tb) {}
 
+
+/*
+PUBLIC FUNCTIONS
+*/
 vector<vector<int>> Sudoku::solve() const {
     vector<vector<int>> solvedTable;
 
@@ -47,4 +52,42 @@ void Sudoku::printTable() const {
 
     for (int i = 0; i < table[0].size() + ((table[0].size() / 3) + 1); i++) std::cout << ". "; //Print bottom row
 
+}
+
+/*
+PRIVATE FUNCTIONS
+*/
+
+bool validLine(const vector<int> tbColumn){
+    std::map<int, int> vals;
+
+    for (int i = 0; i < tbColumn.size(); i++){
+        if (tbColumn[i] < 0 || tbColumn[i] > 9) return false;
+
+        if (tbColumn[i] != 0) vals[tbColumn[i]]++;
+    }
+
+    for (auto nums : vals){
+        if(nums.second > 1) return false;
+    }
+
+    return true;
+}
+
+bool validSubSquare(const vector<vector<int>> tbSubSquare){
+    std::map<int, int> vals;
+
+    for (int i = 0; i < tbSubSquare.size(); i++){
+        for (int j = 0; j < tbSubSquare.size(); j++){
+            if (tbSubSquare[i][j] < 0 || tbSubSquare[i][j] > 9) return false;
+
+            if (tbSubSquare[i][j] != 0) vals[tbSubSquare[i][j]]++;
+        }
+    }
+
+    for (auto nums : vals){
+        if(nums.second > 1) return false;
+    }
+
+    return true;
 }

@@ -10,6 +10,9 @@ using std::vector;
 class Sudoku {
     private:
         vector<vector<int>> table;
+
+        bool validLine(const vector<int> tbRow) const;
+        bool validSubSquare(const vector<vector<int>> tbSubSquare) const;
     public:
         Sudoku (const vector<vector<int>> tb);
 
