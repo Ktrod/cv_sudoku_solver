@@ -117,7 +117,7 @@ bool Sudoku::validSubSquares(const vector<vector<int>> tb) const{
             vals[tb[i - 1][j - 2]]++;
             vals[tb[i - 2][j - 2]]++;
 
-             for (auto nums : vals){
+            for (auto nums : vals){
                 if(nums.first != 0 && nums.second > 1) return false;
             } 
             vals.clear();
