@@ -1,4 +1,4 @@
-#include "solver.h"
+#include <solver.h>
 #include <iostream>
 
 Sudoku::Sudoku (const vector<vector<int>> tb) : table(tb) {}
