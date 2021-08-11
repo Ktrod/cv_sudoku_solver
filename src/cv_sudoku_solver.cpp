@@ -18,6 +18,10 @@ int main() {
     Sudoku test_board(testBoard);    
 
     test_board.printTable();
+    
+    std::cout << " " << std::endl;
+
+    std::cout << test_board.isValid() << std::endl;
 
     return 0;
 }

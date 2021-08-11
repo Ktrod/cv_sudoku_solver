@@ -1,6 +1,6 @@
 #include <solver.h>
 #include <iostream>
-#include <map>
+#include <unordered_map>
 
 Sudoku::Sudoku (const vector<vector<int>> tb) : table(tb) {}
 
@@ -17,10 +17,18 @@ vector<vector<int>> Sudoku::solve() const {
 }
 
 bool Sudoku::isValid() const {
-    
-    bool is_valid;
+    bool valid_columns, valid_rows, valid_sub_squares;
 
-    return is_valid;
+    valid_columns = validColumns(table);
+    if (!valid_columns) return false;
+
+    valid_rows = validRows(table);
+    if (!valid_rows) return false;
+
+    valid_sub_squares = validSubSquares(table);
+    if (!valid_sub_squares) return false;
+
+    return true;
 }
 
 void Sudoku::printTable() const {
@@ -58,36 +66,62 @@ void Sudoku::printTable() const {
 PRIVATE FUNCTIONS
 */
 
-bool validLine(const vector<int> tbColumn){
-    std::map<int, int> vals;
+bool Sudoku::validColumns(const vector<vector<int>> tb) const{
+    std::unordered_map<int, int> vals;
 
-    for (int i = 0; i < tbColumn.size(); i++){
-        if (tbColumn[i] < 0 || tbColumn[i] > 9) return false;
+    for (int i = 0; i < tb.size(); i++){
+        for (int j = 0; j < tb.size(); j++){
+            if (tb[j][i] < 0 || tb[j][i] > 9) return false;
 
-        if (tbColumn[i] != 0) vals[tbColumn[i]]++;
+            if (tb[j][i] != 0) vals[tb[j][i]]++;
+        }
+
+        for (auto nums : vals){
+            if(nums.second > 1) return false;
+        }
+        vals.clear();
     }
-
-    for (auto nums : vals){
-        if(nums.second > 1) return false;
-    }
-
     return true;
 }
 
-bool validSubSquare(const vector<vector<int>> tbSubSquare){
-    std::map<int, int> vals;
+bool Sudoku::validRows(const vector<vector<int>> tb) const{
+    std::unordered_map<int, int> vals;
 
-    for (int i = 0; i < tbSubSquare.size(); i++){
-        for (int j = 0; j < tbSubSquare.size(); j++){
-            if (tbSubSquare[i][j] < 0 || tbSubSquare[i][j] > 9) return false;
+    for (int i = 0; i < tb.size(); i++){
+        for (int j = 0; j < tb.size(); j++){
+            if (tb[i][j] < 0 || tb[i][j] > 9) return false;
 
-            if (tbSubSquare[i][j] != 0) vals[tbSubSquare[i][j]]++;
+            if (tb[i][j] != 0) vals[tb[i][j]]++;
+        }
+
+        for (auto nums : vals){
+            if(nums.second > 1) return false;
+        }
+        vals.clear();
+    }
+    return true;
+}
+
+bool Sudoku::validSubSquares(const vector<vector<int>> tb) const{
+    std::unordered_map<int, int> vals;
+
+    for (int i = 2; i < tb.size(); i +=3){
+        for (int j = 2; j < tb.size(); j += 3){
+            vals[tb[i][j]]++;
+            vals[tb[i][j - 1]]++;
+            vals[tb[i][j - 2]]++;
+            vals[tb[i - 1][j]]++;
+            vals[tb[i - 2][j]]++;
+            vals[tb[i - 1][j - 1]]++;
+            vals[tb[i - 2][j - 1]]++;
+            vals[tb[i - 1][j - 2]]++;
+            vals[tb[i - 2][j - 2]]++;
+
+             for (auto nums : vals){
+                if(nums.first != 0 && nums.second > 1) return false;
+            } 
+            vals.clear();
         }
     }
-
-    for (auto nums : vals){
-        if(nums.second > 1) return false;
-    }
-
     return true;
 }

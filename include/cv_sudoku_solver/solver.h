@@ -11,8 +11,9 @@ class Sudoku {
     private:
         vector<vector<int>> table;
 
-        bool validLine(const vector<int> tbRow) const;
-        bool validSubSquare(const vector<vector<int>> tbSubSquare) const;
+        bool validColumns(const vector<vector<int>> tb) const;
+        bool validRows(const vector<vector<int>> tb) const;
+        bool validSubSquares(const vector<vector<int>> tb) const;
     public:
         Sudoku (const vector<vector<int>> tb);
 
