@@ -14,13 +14,16 @@ class Sudoku {
         bool validColumns(const vector<vector<int>> tb) const;
         bool validRows(const vector<vector<int>> tb) const;
         bool validSubSquares(const vector<vector<int>> tb) const;
+        bool isValid(const vector<vector<int>> tb) const;
+
+        bool isSolved(const vector<vector<int>> tb) const;
     public:
-        Sudoku (const vector<vector<int>> tb);
+        Sudoku (vector<vector<int>> tb);
 
         vector<vector<int>> getTable() const { return table; };
-        bool isValid() const;
+        
         vector<vector<int>> solve() const;
-        void printTable() const;
+        void printTable(vector<vector<int>> tb) const;
 
 };
 
